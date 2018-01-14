@@ -39,6 +39,17 @@ namespace SchoolBusRouting.Algorithm
         {
             var best = new Chromosome(busStops: BusStops, students: Students) { Fitness = double.MaxValue };
 
+            foreach (var chromosome in Population)
+            {
+                foreach (var student in chromosome.Students)
+                {
+                    if (student.ChosenBusStop == null)
+                    {
+                        Console.WriteLine("nema");
+                    }
+                }
+            }
+
             for (var i = 0; i < IterationLimit; i++)
             {
                 var selectedFromPopulation = Selection.Select(Population);
@@ -81,11 +92,11 @@ namespace SchoolBusRouting.Algorithm
                     }
                     Console.WriteLine();
 
-                    foreach (var bus in best.Busses)
+                    /*foreach (var bus in best.Busses)
                     {
                         Console.WriteLine(bus + "\t\t" + bus.SeatsTaken);
                     }
-                    Console.WriteLine();
+                    Console.WriteLine();*/
                 }
 
                 if (populationBest < FitnessTerminator)

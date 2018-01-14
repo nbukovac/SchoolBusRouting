@@ -19,7 +19,7 @@ namespace SchoolBusRouting.Operators.Crossover
                 var student2 = chromosome2.Students.ElementAt(i);
                 var childStudent = child.Students.ElementAt(i);
 
-                var random = HelperMethods.Random.NextDouble();
+                /*var random = HelperMethods.Random.NextDouble();
 
                 BusStop busStop;
                 if (random < 0.5)
@@ -40,6 +40,60 @@ namespace SchoolBusRouting.Operators.Crossover
                     {
                         childStudent.ChosenBusStop = child.BusStops.FirstOrDefault(x => x.Id == busStop.Id);
                         child.BusStops.FirstOrDefault(x => x.Id == busStop.Id).TakeSeat();
+                    }
+                }*/
+
+                var busStop1 = child.BusStops.FirstOrDefault(x => x.Id == student1.ChosenBusStop.Id);
+                var busStop2 = child.BusStops.FirstOrDefault(x => x.Id == student1.ChosenBusStop.Id);
+                
+                if (busStop1?.DistanceToSchool < busStop2?.DistanceToSchool)
+                {
+                    if (busStop1.EmptySeatsLeft())
+                    {
+                        childStudent.ChosenBusStop = busStop1;
+                        busStop1.TakeSeat();
+                    }
+                    else if (busStop2.EmptySeatsLeft())
+                    {
+                        childStudent.ChosenBusStop = busStop2;
+                        busStop2.TakeSeat();
+                    }
+                    else
+                    {
+                        foreach (var busStop in childStudent.ReachableBusStops)
+                        {
+                            if (busStop.EmptySeatsLeft())
+                            {
+                                childStudent.ChosenBusStop = busStop;
+                                busStop.TakeSeat();
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (busStop2.EmptySeatsLeft())
+                    {
+                        childStudent.ChosenBusStop = busStop2;
+                        busStop2.TakeSeat();
+                    }
+                    else if (busStop1.EmptySeatsLeft())
+                    {
+                        childStudent.ChosenBusStop = busStop1;
+                        busStop1.TakeSeat();
+                    }
+                    else
+                    {
+                        foreach (var busStop in childStudent.ReachableBusStops)
+                        {
+                            if (busStop.EmptySeatsLeft())
+                            {
+                                childStudent.ChosenBusStop = busStop;
+                                busStop.TakeSeat();
+                                break;
+                            }
+                        }
                     }
                 }
             }

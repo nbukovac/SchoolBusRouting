@@ -45,12 +45,14 @@ namespace SchoolBusRouting.Population
                 {
                     var index = HelperMethods.Random.Next(student.ReachableBusStops.Count);
                     var busStop = student.ReachableBusStops.ElementAt(index);
-                    
+
                     if (busStop.EmptySeatsLeft())
                     {
                         student.ChosenBusStop = busStop;
                         busStop.TakeSeat();
+                        break;
                     }
+                    
                 }
             }
         }

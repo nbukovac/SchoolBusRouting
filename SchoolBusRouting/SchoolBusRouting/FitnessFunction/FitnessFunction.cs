@@ -12,15 +12,14 @@ namespace SchoolBusRouting.FitnessFunction
         public double CalculateFitness(Chromosome chromosome)
         {
             var sum = 0.0;
-            var notEmptyBusStops = chromosome.BusStops.Where(x => !x.EmptyBusStop());
+            var notEmptyBusStops = chromosome.BusStops.Where(x => !x.EmptyBusStop()).OrderByDescending(x => x.DistanceToSchool);
             chromosome.Busses = new List<Bus>();
 
             foreach (var busStop in notEmptyBusStops)
             {
                 if (busStop.SeatsTaken > BusParameters.BusCapacity)
                 {
-                    sum = double.MaxValue;
-                    break;
+                    return double.MaxValue;
                 }
 
                 var bus = chromosome.Busses.FirstOrDefault(x => x.CanVisitBusStop(busStop));

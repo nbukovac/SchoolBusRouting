@@ -10,12 +10,14 @@ namespace SchoolBusRouting.Models
         public double X { get; set; }
         public double Y { get; set; }
         public int SeatsTaken { get; set; }
+        public double DistanceToSchool { get; set; }
 
         private BusStop(BusStop busStop)
         {
             Id = busStop.Id;
             X = busStop.X;
             Y = busStop.Y;
+            DistanceToSchool = busStop.DistanceToSchool;
         }
         
         public BusStop(string line)
@@ -25,6 +27,11 @@ namespace SchoolBusRouting.Models
             Id = int.Parse(lineSplit[0]);
             X = double.Parse(lineSplit[1], NumberStyles.Any);
             Y = double.Parse(lineSplit[2], NumberStyles.Any);
+
+            if (BusParameters.School != null)
+            {
+                DistanceToSchool = HelperMethods.Distance(X, Y, BusParameters.School.X, BusParameters.School.Y);
+            }
         }
 
         public BusStop MakeCopy()

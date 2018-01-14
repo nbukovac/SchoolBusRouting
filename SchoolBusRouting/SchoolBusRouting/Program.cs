@@ -15,14 +15,14 @@ namespace SchoolBusRouting
     public class Program
     {
 
-        private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr1.txt";
-        private const string InstanceResultFilePath = "/home/nikola/Projekti/HMO_project/Instance/res-ne-sbr1.txt";
+        private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr10.txt";
+        private const string InstanceResultFilePath = "/home/nikola/Projekti/HMO_project/Instance/res-ne-sbr10.txt";
         
-        private const int PopulationSize = 30;
+        private const int PopulationSize = 20;
         private const double FitnessTerminator = 10e-9;
         private const int IterationLimit = 20_000;
-        private const double MutationProbability = 0.1;
-        private const int TournamentSize = 3;
+        private const double MutationProbability = 0.01;
+        private const int TournamentSize = 9;
         
         public static void Main(string[] args)
         {
@@ -62,11 +62,15 @@ namespace SchoolBusRouting
                 BusParameters.BusCapacity = int.Parse(firstLine[3].Split(' ', StringSplitOptions.RemoveEmptyEntries)[0]);
 
                 reader.ReadLine();
+                
+                BusParameters.School = new BusStop(reader.ReadLine());
 
-                for (int i = 0; i < BusParameters.NumberOfBusStops; i++)
+                for (int i = 1; i < BusParameters.NumberOfBusStops; i++)
                 {
                     busStops.Add(new BusStop(reader.ReadLine()));
                 }
+
+                busStops = busStops.OrderBy(x => x.DistanceToSchool).ToList();
 
                 var line = "";
 
@@ -80,8 +84,6 @@ namespace SchoolBusRouting
                     students.Add(new Student(line, busStops));
                 }
             }
-
-            BusParameters.School = busStops.FirstOrDefault(x => x.IsSchool());
         }
     }
 }
