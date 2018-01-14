@@ -16,6 +16,7 @@ namespace SchoolBusRouting
     {
 
         private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr1.txt";
+        private const string InstanceResultFilePath = "/home/nikola/Projekti/HMO_project/Instance/res-ne-sbr1.txt";
         
         private const int PopulationSize = 30;
         private const double FitnessTerminator = 10e-9;
@@ -42,6 +43,10 @@ namespace SchoolBusRouting
             
             Console.WriteLine();
             Console.WriteLine(optimum.Fitness);
+
+            optimum.Students = optimum.Students.OrderBy(x => x.Id).ToList();
+            
+            HelperMethods.WriteToFile(optimum.ToString(), InstanceResultFilePath);
         }
 
         private static void ParseFromFile(ICollection<BusStop> busStops, ICollection<Student> students)

@@ -56,7 +56,7 @@ namespace SchoolBusRouting.Models
 
         public override string ToString()
         {
-            return Id + " " + ReachableBusStops.Count;
+            return Id + " " + ChosenBusStop.Id;
         }
 
         public override bool Equals(object obj)

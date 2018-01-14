@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using SchoolBusRouting.Helpers;
 using SchoolBusRouting.Models;
 
@@ -67,6 +68,25 @@ namespace SchoolBusRouting.Population
             }
 
             return 0;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            foreach (var bus in Busses)
+            {
+                sb.Append(bus).Append(Environment.NewLine);
+            }
+
+            sb.Append(Environment.NewLine);
+
+            foreach (var student in Students)
+            {
+                sb.Append(student).Append(Environment.NewLine);
+            }
+            
+            return sb.ToString();
         }
     }
 }
