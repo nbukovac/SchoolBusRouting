@@ -9,6 +9,8 @@ namespace SchoolBusRouting.FitnessFunction
 {
     public class FitnessFunction : IFitnessFunction<Chromosome>
     {
+        public static int EvaluationCounter;
+        
         public double CalculateFitness(Chromosome chromosome)
         {
             var sum = 0.0;
@@ -39,6 +41,8 @@ namespace SchoolBusRouting.FitnessFunction
                 sum += bus.DistanceCovered + HelperMethods.Distance(lastStop.X, lastStop.Y, BusParameters.School.X,
                            BusParameters.School.Y);
             }
+
+            EvaluationCounter++;
             
             return sum;
         }

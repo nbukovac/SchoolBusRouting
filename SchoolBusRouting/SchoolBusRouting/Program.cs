@@ -20,7 +20,7 @@ namespace SchoolBusRouting
         
         private const int PopulationSize = 30;
         private const double FitnessTerminator = 10e-9;
-        private const int IterationLimit = 20_000;
+        private const int IterationLimit = 40_000;
         private const double MutationProbability = 0.01;
         private const int TournamentSize = 9;
         
@@ -37,7 +37,7 @@ namespace SchoolBusRouting
             var fitnessFunction = new FitnessFunction.FitnessFunction();
 
             var geneticAlgorithm = new EliminationGeneticAlgorithm(mutation, selection, crossover, fitnessFunction,
-                IterationLimit, FitnessTerminator, PopulationSize, students, busStops);
+                IterationLimit, FitnessTerminator, PopulationSize, students, busStops, InstanceFilePath);
 
             var optimum = geneticAlgorithm.FindOptimum();
             

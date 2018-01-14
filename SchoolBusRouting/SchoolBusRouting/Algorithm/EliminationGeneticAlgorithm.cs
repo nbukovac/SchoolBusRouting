@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Microsoft.VisualBasic.CompilerServices;
 using SchoolBusRouting.FitnessFunction;
+using SchoolBusRouting.Helpers;
 using SchoolBusRouting.Models;
 using SchoolBusRouting.Operators;
 using SchoolBusRouting.Population;
@@ -10,17 +13,29 @@ namespace SchoolBusRouting.Algorithm
 {
     public class EliminationGeneticAlgorithm : GeneticAlgorithm<Chromosome>
     {
-        public static IEnumerable<Student> Students { get; set; }
-        public static IEnumerable<BusStop> BusStops { get; set; }
+        public static IEnumerable<Student> Students { get; private set; }
+        public static IEnumerable<BusStop> BusStops { get; private set; }
+        private string InstanceFilePath  { get; }
+
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+
+        private const string FileNamePrefix = "res";
+        private const string FileNamePostFix = ".txt";
+
+        private bool minuteMark;
+        private bool fiveMinuteMark;
         
         public EliminationGeneticAlgorithm(IMutation<Chromosome> mutation, ISelection<Chromosome> selection, ICrossover<Chromosome> crossover,
             IFitnessFunction<Chromosome> fitnessFunction, int iterationLimit, double fitnessTerminator, int populationSize, 
-            IEnumerable<Student> students, IEnumerable<BusStop> busStops) 
+            IEnumerable<Student> students, IEnumerable<BusStop> busStops, string instanceFilePath) 
             : base(mutation, selection, crossover, fitnessFunction, iterationLimit, fitnessTerminator, populationSize)
         {
             Population = new Population<Chromosome>(populationSize);
             Students = students;
             BusStops = busStops;
+            InstanceFilePath = instanceFilePath;
+            
+            _stopwatch.Start();
             
             InitializePopulation();
         }
@@ -38,17 +53,6 @@ namespace SchoolBusRouting.Algorithm
         public override Chromosome FindOptimum()
         {
             var best = new Chromosome(busStops: BusStops, students: Students) { Fitness = double.MaxValue };
-
-            foreach (var chromosome in Population)
-            {
-                foreach (var student in chromosome.Students)
-                {
-                    if (student.ChosenBusStop == null)
-                    {
-                        Console.WriteLine("nema");
-                    }
-                }
-            }
 
             for (var i = 0; i < IterationLimit; i++)
             {
@@ -91,18 +95,46 @@ namespace SchoolBusRouting.Algorithm
                         Console.Write(stop.SeatsTaken + ", ");
                     }
                     Console.WriteLine();
+                    Console.WriteLine(_stopwatch.Elapsed);
+                }
 
-                    /*foreach (var bus in best.Busses)
-                    {
-                        Console.WriteLine(bus + "\t\t" + bus.SeatsTaken);
-                    }
-                    Console.WriteLine();*/
+                if (_stopwatch.Elapsed >= TimeSpan.FromMinutes(1) && _stopwatch.Elapsed < TimeSpan.FromMinutes(5) && !minuteMark)
+                {
+                    var instanceName = InstanceFilePath.Split('/').Last().Split('.')[0];
+                    var lastDirectoryIndex = InstanceFilePath.LastIndexOf('/');
+                    var instanceDirectory = InstanceFilePath.Substring(0, lastDirectoryIndex + 1);
+                    
+                    HelperMethods.WriteToFile(best.ToString(), instanceDirectory + FileNamePrefix + "-1m-" + instanceName + FileNamePostFix);
+
+                    minuteMark = true;
+                }
+                
+                if (_stopwatch.Elapsed >= TimeSpan.FromMinutes(5) && !fiveMinuteMark)
+                {
+                    var instanceName = InstanceFilePath.Split('/').Last().Split('.')[0];
+                    var lastDirectoryIndex = InstanceFilePath.LastIndexOf('/');
+                    var instanceDirectory = InstanceFilePath.Substring(0, lastDirectoryIndex + 1);
+                    
+                    HelperMethods.WriteToFile(best.ToString(), instanceDirectory + FileNamePrefix + "-5m-" + instanceName + FileNamePostFix);
+
+                    fiveMinuteMark = true;
                 }
 
                 if (populationBest < FitnessTerminator)
                 {
                     break;
                 }
+            }
+            
+            _stopwatch.Stop();
+
+            if (!fiveMinuteMark)
+            {
+                var instanceName = InstanceFilePath.Split('/').Last().Split('.')[0];
+                var lastDirectoryIndex = InstanceFilePath.LastIndexOf('/');
+                var instanceDirectory = InstanceFilePath.Substring(0, lastDirectoryIndex + 1);
+                    
+                HelperMethods.WriteToFile(best.ToString(), instanceDirectory + FileNamePrefix + "-5m-" + instanceName + FileNamePostFix);
             }
 
             return best;
