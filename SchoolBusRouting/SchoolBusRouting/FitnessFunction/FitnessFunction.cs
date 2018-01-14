@@ -9,7 +9,7 @@ namespace SchoolBusRouting.FitnessFunction
 {
     public class FitnessFunction : IFitnessFunction<Chromosome>
     {
-        public static int EvaluationCounter;
+        public int EvaluationCounter { get; private set; }
         
         public double CalculateFitness(Chromosome chromosome)
         {

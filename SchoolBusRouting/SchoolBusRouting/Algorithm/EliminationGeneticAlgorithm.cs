@@ -107,6 +107,7 @@ namespace SchoolBusRouting.Algorithm
                     HelperMethods.WriteToFile(best.ToString(), instanceDirectory + FileNamePrefix + "-1m-" + instanceName + FileNamePostFix);
 
                     minuteMark = true;
+                    Console.WriteLine("Fitness value => " + best.Fitness + "\tEvaluation count => " + FitnessFunction.EvaluationCounter);
                 }
                 
                 if (_stopwatch.Elapsed >= TimeSpan.FromMinutes(5) && !fiveMinuteMark)
@@ -118,6 +119,7 @@ namespace SchoolBusRouting.Algorithm
                     HelperMethods.WriteToFile(best.ToString(), instanceDirectory + FileNamePrefix + "-5m-" + instanceName + FileNamePostFix);
 
                     fiveMinuteMark = true;
+                    Console.WriteLine("Fitness value => " + best.Fitness + "\tEvaluation count => " + FitnessFunction.EvaluationCounter);
                 }
 
                 if (populationBest < FitnessTerminator)
@@ -135,8 +137,10 @@ namespace SchoolBusRouting.Algorithm
                 var instanceDirectory = InstanceFilePath.Substring(0, lastDirectoryIndex + 1);
                     
                 HelperMethods.WriteToFile(best.ToString(), instanceDirectory + FileNamePrefix + "-5m-" + instanceName + FileNamePostFix);
+                Console.WriteLine("Fitness value => " + best.Fitness + "\tEvaluation count => " + FitnessFunction.EvaluationCounter);
             }
 
+            Console.WriteLine("Fitness value => " + best.Fitness + "\tEvaluation count => " + FitnessFunction.EvaluationCounter);
             return best;
         }
     }

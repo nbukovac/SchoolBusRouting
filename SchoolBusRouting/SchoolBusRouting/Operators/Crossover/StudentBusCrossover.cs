@@ -18,31 +18,7 @@ namespace SchoolBusRouting.Operators.Crossover
                 var student1 = chromosome1.Students.ElementAt(i);
                 var student2 = chromosome2.Students.ElementAt(i);
                 var childStudent = child.Students.ElementAt(i);
-
-                /*var random = HelperMethods.Random.NextDouble();
-
-                BusStop busStop;
-                if (random < 0.5)
-                {
-                    busStop = student1.ChosenBusStop;
-
-                    if (child.BusStops.FirstOrDefault(x => x.Id == busStop.Id).EmptySeatsLeft())
-                    {
-                        childStudent.ChosenBusStop = child.BusStops.FirstOrDefault(x => x.Id == busStop.Id);
-                        child.BusStops.FirstOrDefault(x => x.Id == busStop.Id).TakeSeat();
-                    }
-                }
-                else
-                {
-                    busStop = student2.ChosenBusStop;
-                    
-                    if (child.BusStops.FirstOrDefault(x => x.Id == busStop.Id).EmptySeatsLeft())
-                    {
-                        childStudent.ChosenBusStop = child.BusStops.FirstOrDefault(x => x.Id == busStop.Id);
-                        child.BusStops.FirstOrDefault(x => x.Id == busStop.Id).TakeSeat();
-                    }
-                }*/
-
+                
                 var busStop1 = child.BusStops.FirstOrDefault(x => x.Id == student1.ChosenBusStop.Id);
                 var busStop2 = child.BusStops.FirstOrDefault(x => x.Id == student1.ChosenBusStop.Id);
                 
