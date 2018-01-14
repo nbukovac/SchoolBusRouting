@@ -52,6 +52,11 @@ namespace SchoolBusRouting.Models
             SeatsTaken++;
         }
 
+        public void LeaveSeat()
+        {
+            SeatsTaken--;
+        }
+
         public override bool Equals(object obj)
         {
             var stop = obj as BusStop;

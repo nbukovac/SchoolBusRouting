@@ -1,4 +1,5 @@
-﻿namespace SchoolBusRouting.FitnessFunction
+﻿
+namespace SchoolBusRouting.FitnessFunction
 {
     public interface IFitnessFunction<T>
     {

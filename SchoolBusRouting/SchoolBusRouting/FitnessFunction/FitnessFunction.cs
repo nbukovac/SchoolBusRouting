@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SchoolBusRouting.Helpers;
+using SchoolBusRouting.Models;
 using SchoolBusRouting.Population;
 
 namespace SchoolBusRouting.FitnessFunction
@@ -11,6 +13,7 @@ namespace SchoolBusRouting.FitnessFunction
         {
             var sum = 0.0;
             var notEmptyBusStops = chromosome.BusStops.Where(x => !x.EmptyBusStop());
+            chromosome.Busses = new List<Bus>();
 
             foreach (var busStop in notEmptyBusStops)
             {
@@ -19,8 +22,23 @@ namespace SchoolBusRouting.FitnessFunction
                     sum = double.MaxValue;
                     break;
                 }
-                
-                sum += HelperMethods.Distance(BusParameters.School.X, BusParameters.School.Y, busStop.X, busStop.Y) * 2;
+
+                var bus = chromosome.Busses.FirstOrDefault(x => x.CanVisitBusStop(busStop));
+
+                if (bus == null)
+                {
+                    bus = new Bus();
+                    chromosome.Busses.Add(bus);
+                }
+
+                bus.AddBusStop(busStop);
+            }
+
+            foreach (var bus in chromosome.Busses)
+            {
+                var lastStop = bus.LastVisitedBusStop();
+                sum += bus.DistanceCovered + HelperMethods.Distance(lastStop.X, lastStop.Y, BusParameters.School.X,
+                           BusParameters.School.Y);
             }
             
             return sum;

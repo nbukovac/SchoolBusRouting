@@ -10,6 +10,7 @@ namespace SchoolBusRouting.Population
     {
         public List<BusStop> BusStops { get; set; }
         public List<Student> Students { get; set; }
+        public List<Bus> Busses { get; set; }
         public double Fitness { get; set; }
 
         public Chromosome(IEnumerable<BusStop> busStops, IEnumerable<Student> students, bool randomizeStudentBusStops = true)
@@ -41,8 +42,8 @@ namespace SchoolBusRouting.Population
             {
                 while (student.ChosenBusStop == null)
                 {
-                    var index = HelperMethods.Random.Next(0, student.ReachableBusStops.Count - 1);
-                    var busStop = BusStops.ElementAt(index);
+                    var index = HelperMethods.Random.Next(student.ReachableBusStops.Count);
+                    var busStop = student.ReachableBusStops.ElementAt(index);
                     
                     if (busStop.EmptySeatsLeft())
                     {

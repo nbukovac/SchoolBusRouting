@@ -44,7 +44,7 @@ namespace SchoolBusRouting.Algorithm
                 var selectedFromPopulation = Selection.Select(Population);
                 
                 var childChromosome = Crossover.Cross(selectedFromPopulation[0], selectedFromPopulation[1]);
-                //childChromosome = Mutation.Mutate(childChromosome);
+                childChromosome = Mutation.Mutate(childChromosome);
                 childChromosome.Fitness = FitnessFunction.CalculateFitness(childChromosome);
                 
                 Population.Remove(selectedFromPopulation[2]);
@@ -74,10 +74,18 @@ namespace SchoolBusRouting.Algorithm
                 if (i % 1000 == 0)
                 {
                     Console.WriteLine("Iteration: " + i);
-                    foreach (var chromosome in Population)
+
+                    foreach (var stop in best.BusStops)
                     {
-                        Console.Write(chromosome.Fitness + ", ");
+                        Console.Write(stop.SeatsTaken + ", ");
                     }
+                    Console.WriteLine();
+
+                    foreach (var bus in best.Busses)
+                    {
+                        Console.WriteLine(bus + "\t\t" + bus.SeatsTaken);
+                    }
+                    Console.WriteLine();
                 }
 
                 if (populationBest < FitnessTerminator)

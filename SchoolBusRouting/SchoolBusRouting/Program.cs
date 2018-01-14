@@ -7,6 +7,7 @@ using SchoolBusRouting.Algorithm;
 using SchoolBusRouting.Helpers;
 using SchoolBusRouting.Models;
 using SchoolBusRouting.Operators.Crossover;
+using SchoolBusRouting.Operators.Mutation;
 using SchoolBusRouting.Operators.Selection;
 
 namespace SchoolBusRouting
@@ -14,11 +15,11 @@ namespace SchoolBusRouting
     public class Program
     {
 
-        private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr2.txt";
+        private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr1.txt";
         
         private const int PopulationSize = 30;
         private const double FitnessTerminator = 10e-9;
-        private const int IterationLimit = 100_000;
+        private const int IterationLimit = 20_000;
         private const double MutationProbability = 0.1;
         private const int TournamentSize = 3;
         
@@ -29,12 +30,12 @@ namespace SchoolBusRouting
             
             ParseFromFile(busStops, students);
 
-            //var mutation = new UniformMutation(MutationProbability); 
+            var mutation = new StudentBusMutation(MutationProbability); 
             var selection = new KTournamentSelection(TournamentSize);
             var crossover = new StudentBusCrossover();
             var fitnessFunction = new FitnessFunction.FitnessFunction();
 
-            var geneticAlgorithm = new EliminationGeneticAlgorithm(null, selection, crossover, fitnessFunction,
+            var geneticAlgorithm = new EliminationGeneticAlgorithm(mutation, selection, crossover, fitnessFunction,
                 IterationLimit, FitnessTerminator, PopulationSize, students, busStops);
 
             var optimum = geneticAlgorithm.FindOptimum();
@@ -43,7 +44,7 @@ namespace SchoolBusRouting
             Console.WriteLine(optimum.Fitness);
         }
 
-        private static void ParseFromFile(List<BusStop> busStops, List<Student> students)
+        private static void ParseFromFile(ICollection<BusStop> busStops, ICollection<Student> students)
         {
             using (var reader = new StreamReader(InstanceFilePath))
             {
