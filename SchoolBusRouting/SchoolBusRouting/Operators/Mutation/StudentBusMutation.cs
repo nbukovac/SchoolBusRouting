@@ -26,12 +26,16 @@ namespace SchoolBusRouting.Operators.Mutation
                 currentBusStop.LeaveSeat();
 
                 var seated = false;
+                
+                var reachableBusStopsWithEmptySeats = student.ReachableBusStops.Where(x => x.EmptySeatsLeft()).ToList();
 
                 while (!seated)
                 {
-                    var index = HelperMethods.Random.Next(student.ReachableBusStops.Count);
-                    var newBusStop = student.ReachableBusStops.ElementAt(index);
-
+                    //var index = HelperMethods.Random.Next(student.ReachableBusStops.Count);
+                    //var newBusStop = student.ReachableBusStops.ElementAt(index);
+                    var index = HelperMethods.Random.Next(reachableBusStopsWithEmptySeats.Count / 2);
+                    var newBusStop = reachableBusStopsWithEmptySeats.ElementAt(index);
+                    
                     if (newBusStop.EmptySeatsLeft() || newBusStop.IsSchool())
                     {
                         student.ChosenBusStop = newBusStop;

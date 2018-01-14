@@ -41,10 +41,12 @@ namespace SchoolBusRouting.Population
         {
             foreach (var student in Students)
             {
+                var reachableBusStopsWithEmptySeats = student.ReachableBusStops.Where(x => x.EmptySeatsLeft()).ToList();
+                
                 while (student.ChosenBusStop == null)
                 {
-                    var index = HelperMethods.Random.Next(student.ReachableBusStops.Count);
-                    var busStop = student.ReachableBusStops.ElementAt(index);
+                    var index = HelperMethods.Random.Next(reachableBusStopsWithEmptySeats.Count / 2);
+                    var busStop = reachableBusStopsWithEmptySeats.ElementAt(index);
 
                     if (busStop.EmptySeatsLeft())
                     {
