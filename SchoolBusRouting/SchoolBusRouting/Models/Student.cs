@@ -14,6 +14,15 @@ namespace SchoolBusRouting.Models
         public List<BusStop> ReachableBusStops { get; set; }
         public BusStop ChosenBusStop { get; set; }
 
+        private Student(Student student)
+        {
+            Id = student.Id;
+            X = student.X;
+            Y = student.Y;
+            
+            ReachableBusStops = new List<BusStop>();
+        }
+        
         public Student(string line, IEnumerable<BusStop> busStops)
         {
             var lineSplit = line.Trim().Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
@@ -26,6 +35,14 @@ namespace SchoolBusRouting.Models
             FindReachableBusStops(busStops);
         }
 
+        public Student MakeCopy(IEnumerable<BusStop> busStops)
+        {
+            var student = new Student(this);
+            student.FindReachableBusStops(busStops);
+            
+            return student;
+        }
+        
         private void FindReachableBusStops(IEnumerable<BusStop> busStops)
         {
             foreach (var busStop in busStops)
@@ -40,6 +57,13 @@ namespace SchoolBusRouting.Models
         public override string ToString()
         {
             return Id + " " + ReachableBusStops.Count;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var student = obj as Student;
+
+            return student?.Id == Id;
         }
     }
 }

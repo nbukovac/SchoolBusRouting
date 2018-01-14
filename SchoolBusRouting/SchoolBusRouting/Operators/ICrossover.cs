@@ -1,4 +1,7 @@
-﻿namespace SchoolBusRouting.Operators
+﻿using System.Collections.Generic;
+using SchoolBusRouting.Models;
+
+namespace SchoolBusRouting.Operators
 {
     public interface ICrossover<T>
     {
