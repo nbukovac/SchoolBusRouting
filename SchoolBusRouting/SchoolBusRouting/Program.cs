@@ -15,10 +15,10 @@ namespace SchoolBusRouting
     public class Program
     {
 
-        private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr10.txt";
-        private const string InstanceResultFilePath = "/home/nikola/Projekti/HMO_project/Instance/res-ne-sbr10.txt";
+        private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr1.txt";
+        private const string InstanceResultFilePath = "/home/nikola/Projekti/HMO_project/Instance/res-ne-sbr1.txt";
         
-        private const int PopulationSize = 20;
+        private const int PopulationSize = 30;
         private const double FitnessTerminator = 10e-9;
         private const int IterationLimit = 20_000;
         private const double MutationProbability = 0.01;
