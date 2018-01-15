@@ -33,7 +33,8 @@ namespace SchoolBusRouting.Operators.Mutation
                 {
                     //var index = HelperMethods.Random.Next(student.ReachableBusStops.Count);
                     //var newBusStop = student.ReachableBusStops.ElementAt(index);
-                    var index = HelperMethods.Random.Next(reachableBusStopsWithEmptySeats.Count / 2);
+                    var index = HelperMethods.Random.Next(reachableBusStopsWithEmptySeats.Count >= 2 ? 
+                        reachableBusStopsWithEmptySeats.Count/ 2 : reachableBusStopsWithEmptySeats.Count);
                     var newBusStop = reachableBusStopsWithEmptySeats.ElementAt(index);
                     
                     if (newBusStop.EmptySeatsLeft() || newBusStop.IsSchool())
