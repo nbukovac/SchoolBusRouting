@@ -15,8 +15,8 @@ namespace SchoolBusRouting
     public class Program
     {
 
-        private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr10.txt";
-        private const string InstanceResultFilePath = "/home/nikola/Projekti/HMO_project/Instance/res-ne-sbr10.txt";
+        private const string InstanceFilePath = "/home/nikola/Projekti/HMO_project/Instance/sbr3.txt";
+        private const string InstanceResultFilePath = "/home/nikola/Projekti/HMO_project/Instance/res-ne-sbr3.txt";
         
         private const int PopulationSize = 30;
         private const double FitnessTerminator = 10e-9;
